@@ -48,3 +48,22 @@ kops rolling-update cluster --yes --state s3://ikhsan-kops-state
 kops export kubeconfig k8s-cluster.example.com --admin --state s3://ikhsan-kops-state
 
 #Migrate High Available
+
+
+#High Available
+
+export KOPS_STATE_STORE="s3://ikhsan-kops-state"
+export MASTER_SIZE="t2.medium"
+export NODE_SIZE="t2.medium"
+export ZONES="us-east-1a,us-east-1b,us-east-1c"
+
+kops create cluster --name=ikhsan.k8s.local \
+--zones=$ZONES \
+--master-zones=$ZONES \
+--master-size=$MASTER_SIZE \
+--node-size=$NODE_SIZE \
+--node-count=3 \
+--networking=calico \
+--topology=private \
+--ssh-public-key=.ssh/authorized_keys \
+--state=$KOPS_STATE_STORE

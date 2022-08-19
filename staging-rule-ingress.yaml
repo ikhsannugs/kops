@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mern-ingress
+  namespace: staging
+  labels:
+    app: mern
+    tier: frontend
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: staging.ikhsan.devopscloud.tech
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mern-frontend
+            port:
+              number: 3000
+      - path: /users
+        pathType: Prefix
+        backend:
+          service:
+            name: mern-backend
+            port:
+              number: 5000
